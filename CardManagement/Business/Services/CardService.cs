@@ -29,12 +29,9 @@ namespace Business.Services
         /// <summary>
         /// Retrieves a list of all cards with their related questions, choices, and card types.
         /// </summary>
-        /// <param name="predicate">Optional filter for the cards.</param>
-        /// <param name="orderBy">Optional ordering function.</param>
-        /// <param name="include">Optional include function for additional navigation properties.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the list of cards.</returns>
 
-        public override Task<List<Card>> GetAllAsync(Expression<Func<Card, bool>>? predicate = null, Func<IQueryable<Card>, IOrderedQueryable<Card>>? orderBy = null, Func<IQueryable<Card>, IIncludableQueryable<Card, object>>? include = null)
+        public Task<List<Card>> GetAllCardAsync()
         {
             return base.GetAllAsync(null, null, i => i.Include(inc => inc.Questions).ThenInclude(inc => inc.Choices).Include(inc => inc.CardType));
         }
@@ -42,22 +39,20 @@ namespace Business.Services
         /// Retrieves a card by its unique identifier, including related questions, choices, and card type.
         /// </summary>
         /// <param name="id">The unique identifier of the card.</param>
-        /// <param name="include">Optional include function for additional navigation properties.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the card.</returns>
-
-        public override Task<Card> GetByIdAsync(Guid id, Func<IQueryable<Card>, IIncludableQueryable<Card, object>>? include = null)
+        public Task<Card> GetCardByIdAsync(Guid id)
         {
             return base.GetByIdAsync(id, i => i.Include(inc => inc.Questions).ThenInclude(inc => inc.Choices).Include(inc => inc.CardType));
         }
+
         /// <summary>
         /// Updates an existing card and its related entities using the provided DTO.
         /// </summary>
         /// <param name="id">The unique identifier of the card to update.</param>
         /// <param name="dto">The data transfer object containing updated card information.</param>
-        /// <param name="include">Optional include function for additional navigation properties.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
 
-        public override Task UpdateAsync(Guid id, CardUpdateDto dto, Func<IQueryable<Card>, IIncludableQueryable<Card, object>>? include = null)
+        public Task UpdateCardAsync(Guid id, CardUpdateDto dto)
         {
             return base.UpdateAsync(id, dto, i => i.Include(inc => inc.Questions).ThenInclude(inc => inc.Choices).Include(inc => inc.CardType));
         }
@@ -84,5 +79,9 @@ namespace Business.Services
            return entity;
         }
 
+      
+
+      
+       
     }
 }

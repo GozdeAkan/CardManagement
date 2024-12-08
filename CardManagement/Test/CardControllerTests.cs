@@ -30,7 +30,7 @@ namespace Test
                 new Card { CardName = "Card 1", Description = "Description 1" },
                 new Card { CardName = "Card 2", Description = "Description 2" }
             };
-            _mockCardService.Setup(service => service.GetAllAsync(null, null, null))
+            _mockCardService.Setup(service => service.GetAllCardAsync())
                 .ReturnsAsync(cards);
 
             // Act
@@ -50,7 +50,7 @@ namespace Test
                 new Card { CardName = "Card 1", Description = "Description 1", Questions = new List<CardQuestion> { new CardQuestion {Text = "Card Question 1" } } },
                 new Card { CardName = "Card 2", Description = "Description 2" }
             };
-            _mockCardService.Setup(service => service.GetAllAsync(null, null, null))
+            _mockCardService.Setup(service => service.GetAllCardAsync())
                 .ReturnsAsync(cards);
 
             // Act
@@ -69,7 +69,7 @@ namespace Test
             var cardId = Guid.NewGuid();
             var card = new Card { Id = cardId, CardName = "Card 1", Description = "Description 1" };
 
-            _mockCardService.Setup(service => service.GetByIdAsync(cardId, null))
+            _mockCardService.Setup(service => service.GetCardByIdAsync(cardId))
                 .ReturnsAsync(card);
 
             // Act
@@ -87,7 +87,7 @@ namespace Test
             // Arrange
             var cardId = Guid.NewGuid();
 
-            _mockCardService.Setup(service => service.GetByIdAsync(cardId, null))
+            _mockCardService.Setup(service => service.GetCardByIdAsync(cardId))
                 .ReturnsAsync((Card)null);
 
             // Act
@@ -122,7 +122,7 @@ namespace Test
             var cardId = Guid.NewGuid();
             var updateDto = new CardUpdateDto { CardName = "Updated Card", Description = "Updated Description" };
 
-            _mockCardService.Setup(service => service.UpdateAsync(cardId, updateDto, null))
+            _mockCardService.Setup(service => service.UpdateCardAsync(cardId, updateDto))
                 .Returns(Task.CompletedTask);
 
             // Act
@@ -130,7 +130,7 @@ namespace Test
 
             // Assert
             Assert.IsType<OkResult>(result);
-            _mockCardService.Verify(service => service.UpdateAsync(cardId, updateDto, null), Times.Once);
+            _mockCardService.Verify(service => service.UpdateCardAsync(cardId, updateDto), Times.Once);
         }
     }
 }

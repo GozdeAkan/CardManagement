@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Business.Contracts;
 using DataAccess.Repositories.Base;
 using DataAccess.Utils;
+using Domain.Entities.Card;
 using Infrastructure.Utils;
 using Microsoft.EntityFrameworkCore.Query;
 
@@ -22,15 +23,17 @@ namespace Business.Services
             _repository = _unitOfWork.GetRepository<TEntity>();
         }
         /// <inheritdoc />
-        public virtual async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
+        public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
         {
             var entities = await _repository.GetAllAsync(s => s, predicate, include, orderBy);
             return entities.ToList();
         }
         /// <inheritdoc />
-        public virtual async Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
+        public async Task<TEntity> GetByIdAsync(Guid id, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
         {
             var entity = await _repository.GetByIdAsync(id, include);
+            if (entity == null)
+                throw new Exception($"Card with ID {id} not found.");
             return entity;
         }
         /// <inheritdoc />
@@ -41,7 +44,7 @@ namespace Business.Services
             await _unitOfWork.SaveChangesAsync(WorkContext.CurrentEmailAddress);
         }
         /// <inheritdoc />
-        public virtual async Task UpdateAsync(Guid id, TUpdateDto dto, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
+        public async Task UpdateAsync(Guid id, TUpdateDto dto, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
         {
             await _unitOfWork.ExecuteInTransactionAsync(async () => //If anything goes wrong during the process, no changes are applied to the database.
             {

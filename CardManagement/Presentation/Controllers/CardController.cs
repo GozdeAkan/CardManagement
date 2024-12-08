@@ -31,7 +31,7 @@ namespace Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var cards = await _cardService.GetAllAsync();
+            var cards = await _cardService.GetAllCardAsync();
             return Ok(cards);
         }
 
@@ -44,9 +44,9 @@ namespace Presentation.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var card = await _cardService.GetByIdAsync(id);
+            var card = await _cardService.GetCardByIdAsync(id);
             if (card == null)
-                throw new Exception($"Card with ID {id} not found.");
+                return NotFound(new { Message = $"Card with ID {id} not found." });
             return Ok(card);
         }
         /// <summary>
@@ -70,7 +70,7 @@ namespace Presentation.Controllers
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] CardUpdateDto cardDto)
         {
-            await _cardService.UpdateAsync(id, cardDto);
+            await _cardService.UpdateCardAsync(id, cardDto);
             return Ok();
         }
 

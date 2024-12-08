@@ -35,13 +35,13 @@ namespace DataAccess.Repositories.Base
                 query = include(query);
             }
 
-            return await query.FirstOrDefaultAsync(entity => EF.Property<Guid>(entity, "Id") == id);
+            return await query.FirstOrDefaultAsync(entity => EF.Property<Guid>(entity, "Id") == id).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
         public async Task AddAsync(TEntity entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
