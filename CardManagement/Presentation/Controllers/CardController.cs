@@ -46,7 +46,7 @@ namespace Presentation.Controllers
         {
             var card = await _cardService.GetByIdAsync(id);
             if (card == null)
-                return NotFound($"Card with ID {id} not found.");
+                throw new Exception($"Card with ID {id} not found.");
             return Ok(card);
         }
         /// <summary>
