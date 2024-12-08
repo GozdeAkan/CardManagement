@@ -2,7 +2,7 @@
 
 using System.Linq.Expressions;
 using AutoMapper;
-using Business.DTOs;
+using Business.DTOs.Card;
 using Business.Services;
 using DataAccess.Repositories.Base;
 using DataAccess.Utils;

@@ -1,4 +1,4 @@
-﻿namespace Business.DTOs
+﻿namespace Business.DTOs.Card
 {
     /// <summary>
     /// Represents the data transfer object (DTO) used for updating a choice in a card question.

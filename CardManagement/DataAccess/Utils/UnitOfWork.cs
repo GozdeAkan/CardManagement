@@ -64,7 +64,8 @@ namespace DataAccess.Utils
         /// <summary>
         /// Updates audit fields (CreatedBy, CreatedTime, UpdatedBy, UpdatedTime) for tracked entities.
         /// </summary>
-        private void UpdateAuditFields()
+
+        public void UpdateAuditFields()
         {
             var currentUser = "admin"; //_httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
 
@@ -98,6 +99,8 @@ namespace DataAccess.Utils
                 }
             }
         }
+
+
 
         /// <inheritdoc />
         public void Dispose()

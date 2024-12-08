@@ -1,6 +1,6 @@
 ﻿
 using AutoMapper;
-using Business.DTOs;
+using Business.DTOs.Card;
 using Domain.Entities.Card;
 
 namespace Business.Mappers

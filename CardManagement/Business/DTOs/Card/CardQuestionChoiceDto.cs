@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Business.DTOs
+namespace Business.DTOs.Card
 {
     /// <summary>
     /// Represents a choice for a question within a card.

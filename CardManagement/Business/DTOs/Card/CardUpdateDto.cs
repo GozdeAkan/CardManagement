@@ -1,7 +1,6 @@
-﻿
-using Domain.Enum;
+﻿using Domain.Enum;
 
-namespace Business.DTOs
+namespace Business.DTOs.Card
 {
     /// <summary>
     /// Represents a data transfer object (DTO) for updating a card.

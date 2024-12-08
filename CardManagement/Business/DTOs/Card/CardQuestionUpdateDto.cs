@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Business.DTOs
+namespace Business.DTOs.Card
 {
     /// <summary>
     /// Represents a data transfer object (DTO) for updating a question within a card.

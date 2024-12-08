@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using AutoMapper;
 using Business.Contracts;
-using Business.DTOs;
+using Business.DTOs.Card;
 using DataAccess.Utils;
 using Domain.Entities.Card;
 using Microsoft.EntityFrameworkCore;
