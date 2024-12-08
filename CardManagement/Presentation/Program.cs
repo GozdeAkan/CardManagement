@@ -8,6 +8,7 @@ using DataAccess.Repositories.Base;
 using DataAccess.Utils;
 using Domain.Entities.Auth;
 using Domain.Entities.Card;
+using Infrastructure.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -60,6 +61,13 @@ IConfigurationRoot? configuration = new ConfigurationBuilder()
           .SetBasePath(Directory.GetParent(AppContext.BaseDirectory)!.FullName)
           .AddJsonFile("appsettings.json", false)
           .Build();
+
+builder.Services.AddHttpContextAccessor();
+using (var serviceProvider = builder.Services.BuildServiceProvider())
+{
+    IHttpContextAccessor accessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+    WorkContext.SetHttpContextAccessor(accessor);
+}
 
 builder.Services.AddOpenApi();
 

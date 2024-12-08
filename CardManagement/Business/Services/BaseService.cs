@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Business.Contracts;
 using DataAccess.Repositories.Base;
 using DataAccess.Utils;
+using Infrastructure.Utils;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Business.Services
@@ -37,7 +38,7 @@ namespace Business.Services
         {
             var entity = MapToEntity(dto);
             await _repository.AddAsync(entity);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(WorkContext.CurrentEmailAddress);
         }
         /// <inheritdoc />
         public virtual async Task UpdateAsync(Guid id, TUpdateDto dto, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
@@ -50,7 +51,7 @@ namespace Business.Services
 
                 var updatedEntity = MapDtoToEntity(dto, entity);
                 await _repository.UpdateAsync(updatedEntity);
-            });
+            }, WorkContext.CurrentEmailAddress);
         }
         /// <summary>
         /// Maps the provided DTO to an entity.

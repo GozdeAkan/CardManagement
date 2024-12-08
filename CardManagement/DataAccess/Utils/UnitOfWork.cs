@@ -36,21 +36,21 @@ namespace DataAccess.Utils
         }
 
         /// <inheritdoc />
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(string currentUser)
         {
-            UpdateAuditFields();
+            UpdateAuditFields(currentUser);
             return await _context.SaveChangesAsync();
         }
 
         /// <inheritdoc />
-        public async Task ExecuteInTransactionAsync(Func<Task> action)
+        public async Task ExecuteInTransactionAsync(Func<Task> action, string currentUser)
         {
             using var transaction = await _context.Database.BeginTransactionAsync();
 
             try
             {
                 await action();
-                UpdateAuditFields();
+                UpdateAuditFields(currentUser);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
             }
@@ -65,9 +65,8 @@ namespace DataAccess.Utils
         /// Updates audit fields (CreatedBy, CreatedTime, UpdatedBy, UpdatedTime) for tracked entities.
         /// </summary>
 
-        public void UpdateAuditFields()
+        public void UpdateAuditFields(string? currentUser)
         {
-            var currentUser = "admin"; //_httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "System";
 
             var addedEntries = _context.ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added && e.Entity is BaseEntity);
@@ -78,8 +77,6 @@ namespace DataAccess.Utils
                 {
                     baseEntity.CreatedBy = currentUser;
                     baseEntity.CreatedTime = DateTime.UtcNow;
-                    baseEntity.UpdatedBy = currentUser;
-                    baseEntity.UpdatedTime = DateTime.UtcNow;
                 }
             }
 

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using Domain.Entities.Auth;
-using Business.Utils;
+using Infrastructure.Utils;
 
 namespace Business.Services
 {
